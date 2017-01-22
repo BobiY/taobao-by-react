@@ -1,0 +1,73 @@
+
+/*****************处理整体样式****************/
+*{margin: 0; padding: 0}
+.box{
+  padding-top: 100px;
+  display: flex;
+  justify-content: space-around;
+}
+
+
+/*****************左边部分样式*********************/
+.left{
+  width:30%;
+  height: 100%;
+  background-color: #333;
+  border-left: 1px solid #111;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.tab{
+  width: 90px;
+  height: 90px;
+  background: red;
+  margin: 10px 0;
+  cursor: pointer;
+}
+.img{
+  width: 100%;
+  height: 30px;
+}
+.title{
+  width: 100%;
+  height: 10px;
+  line-height: 10px;
+  text-align: center;
+}
+
+
+/*****************中间部分样式*********************/
+.center{
+  width:40%;
+  height: 100%;
+  border-left: 1px solid #111;
+  box-sizing: border-box;
+  background-color: #999;
+  padding: 50px 20px;
+}
+.content{
+  box-sizing: border-box;
+  background-color: #333;
+  width: 100%;
+}
+
+.tu{
+  width: 100%;
+  border: 1px solid red;
+  height: 100px;
+}
+
+
+
+
+/*****************右边部分样式*********************/
+.right{
+  width:40%;
+  height: 100%;
+  background-color: #333;
+  border-left: 1px solid #111;
+  box-sizing: border-box;
+}
