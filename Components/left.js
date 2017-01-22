@@ -31,10 +31,10 @@ export default class Left extends Component{
            firstY = e.pageY,
            x1 = firstX-left,
            y1 = firstY-top,
-           topf = 0,
+           topf = top,
            num = 0,
            tab = $(this).clone();
-       tab.css({top:top-10,left:left,position:"absolute"})
+       tab.css({top:top,left:left,position:"absolute",margin:0})
        $("body").append(tab);
        $(document).mousemove(function (e) {
           var currentX = e.pageX,
@@ -46,7 +46,7 @@ export default class Left extends Component{
        $(document).mouseup(function(){
          $(document).unbind("mousemove");
          //在这将最后的top值传递出去，在center中进行集中地处理
-         if(num == 0){
+         if(num == 0 && topf != top){
            t.props.getTop(topf);
            num++;
          }

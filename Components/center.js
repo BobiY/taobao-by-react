@@ -38,20 +38,33 @@ export default class Center extends Component{
   componentWillReceiveProps(nextProps){
     var top = nextProps.top;
     var arr = [];
+    var arrTem = this.state.divBox;
+    var length = this.state.divBox.length;
     $(".tu").each(function (index,val) {
          var topTem = $(this).offset().top;
          arr.push(topTem-top)
     })
     for (var i = 0; i < arr.length-1; i++) {
        if(arr[i] <= 0 && arr[i+1] >=0) {
-
-           var arrTem = this.state.divBox;
            arrTem.splice(i+1,0,{text:"我是插入的"+i})
-           console.log(arrTem,i);
-           this.setState({
-             divBox:arrTem
-           })
        }
     }
+    if(length == this.state.divBox.length){
+      var num = 0;
+      for (var i = 0; i < arr.length; i++) {
+         if(arr[i] >= 0 || arr[i] <= 0){
+           num++;
+         }
+      }
+      console.log(num,arr.length);
+      if(num == arr.length && arr[0] >= 0){
+           arrTem.splice(0,0,{text:"我是插入的"+i})
+      }else{
+           arrTem.splice(arr.length,0,{text:"我是插入的"+i})
+      }
+    }
+    this.setState({
+      divBox:arrTem
+    })
   }
 };
