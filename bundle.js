@@ -31485,10 +31485,10 @@
 	            firstY = e.pageY,
 	            x1 = firstX - left,
 	            y1 = firstY - top,
-	            topf = 0,
+	            topf = top,
 	            num = 0,
 	            tab = (0, _jquery2.default)(this).clone();
-	        tab.css({ top: top - 10, left: left, position: "absolute" });
+	        tab.css({ top: top, left: left, position: "absolute", margin: 0 });
 	        (0, _jquery2.default)("body").append(tab);
 	        (0, _jquery2.default)(document).mousemove(function (e) {
 	          var currentX = e.pageX,
@@ -31500,7 +31500,7 @@
 	        (0, _jquery2.default)(document).mouseup(function () {
 	          (0, _jquery2.default)(document).unbind("mousemove");
 	          //在这将最后的top值传递出去，在center中进行集中地处理
-	          if (num == 0) {
+	          if (num == 0 && topf != top) {
 	            t.props.getTop(topf);
 	            num++;
 	          }
@@ -31623,21 +31623,34 @@
 	    value: function componentWillReceiveProps(nextProps) {
 	      var top = nextProps.top;
 	      var arr = [];
+	      var arrTem = this.state.divBox;
+	      var length = this.state.divBox.length;
 	      (0, _jquery2.default)(".tu").each(function (index, val) {
 	        var topTem = (0, _jquery2.default)(this).offset().top;
 	        arr.push(topTem - top);
 	      });
 	      for (var i = 0; i < arr.length - 1; i++) {
 	        if (arr[i] <= 0 && arr[i + 1] >= 0) {
-
-	          var arrTem = this.state.divBox;
 	          arrTem.splice(i + 1, 0, { text: "我是插入的" + i });
-	          console.log(arrTem, i);
-	          this.setState({
-	            divBox: arrTem
-	          });
 	        }
 	      }
+	      if (length == this.state.divBox.length) {
+	        var num = 0;
+	        for (var i = 0; i < arr.length; i++) {
+	          if (arr[i] >= 0 || arr[i] <= 0) {
+	            num++;
+	          }
+	        }
+	        console.log(num, arr.length);
+	        if (num == arr.length && arr[0] >= 0) {
+	          arrTem.splice(0, 0, { text: "我是插入的" + i });
+	        } else {
+	          arrTem.splice(arr.length, 0, { text: "我是插入的" + i });
+	        }
+	      }
+	      this.setState({
+	        divBox: arrTem
+	      });
 	    }
 	  }]);
 
