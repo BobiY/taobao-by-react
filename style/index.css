@@ -70,4 +70,19 @@
   background-color: #333;
   border-left: 1px solid #111;
   box-sizing: border-box;
+  padding: 10px;
+}
+.rConent{
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.rConent span{
+  float: left;
+  margin-right: 10px;
+}
+
+.rConent textarea{
+  width: 70%;
+  height: 100px;
 }
