@@ -6,11 +6,14 @@ export default class Left extends Component{
   constructor(props) {
     super(props);
     this.moreTab = this.moreTab.bind(this);
+    this.state = {
+      title:"海报"
+    }
   }
   moreTab(){
     var tabs = [];
-    for (var i = 0; i < 21; i++) {
-      tabs.push(<Tab key = {i}/>)
+    for (var i = 0; i < 12; i++) {
+      tabs.push(<Tab key = {i} title = {this.state.title} />)
     }
     return tabs;
   }
@@ -25,6 +28,7 @@ export default class Left extends Component{
   componentDidMount(){
     let t = this;
     $(".tab").mousedown(function (e) {
+      e.preventDefault(); 
        var left = $(this).offset().left,
            top = $(this).offset().top,
            firstX = e.pageX,
@@ -66,8 +70,10 @@ class Tab extends Component {
   render(){
     return(
       <div className = "tab">
-          <div className = "img"></div>
-          <p className = "title"></p>
+          <div className = "img">
+             <img src = "images/1.png" />
+          </div>
+          <p className = "title">{this.props.title}</p>
       </div>
     )
   }

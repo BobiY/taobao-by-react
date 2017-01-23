@@ -4,6 +4,7 @@ import {render} from "react-dom";
 import Left from "../Components/left";
 import Center from "../Components/center";
 import Right from "../Components/right";
+import Top from "../Components/top";
 import "../style/index.css";
 
 
@@ -16,14 +17,14 @@ class App extends Component{
       item:{},
       num:0,
       divBox:[
-        {
+        /*{
           title:"我是标题1",
           content:"我是内容"
         },
         {
           title:"我是标题2",
           content:"我是内容"
-        }
+        }*/
       ]
     };
     this.getTop = this.getTop.bind(this);
@@ -49,10 +50,13 @@ class App extends Component{
   }
   render(){
     return(
-      <div className = "box">
-         <Left getTop = {this.getTop}/>
-         <Center top = {this.state.top} getItem = {this.getItem.bind(this)} divBox = {this.state.divBox}/>
-         <Right item = {this.state.item} getCurrent = {this.getCurrent.bind(this)} num = {this.state.num}/>
+      <div>
+          <Top />
+          <div className = "box">
+             <Left getTop = {this.getTop}/>
+             <Center top = {this.state.top} getItem = {this.getItem.bind(this)} divBox = {this.state.divBox}/>
+             <Right item = {this.state.item} getCurrent = {this.getCurrent.bind(this)} num = {this.state.num}/>
+          </div>
       </div>
     )
   }
