@@ -66,7 +66,11 @@
 
 	var _center2 = _interopRequireDefault(_center);
 
-	__webpack_require__(182);
+	var _right = __webpack_require__(182);
+
+	var _right2 = _interopRequireDefault(_right);
+
+	__webpack_require__(183);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -85,7 +89,16 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 	    _this.state = {
-	      top: 0
+	      top: 0,
+	      item: {},
+	      num: 0,
+	      divBox: [{
+	        title: "我是标题1",
+	        content: "我是内容"
+	      }, {
+	        title: "我是标题2",
+	        content: "我是内容"
+	      }]
 	    };
 	    _this.getTop = _this.getTop.bind(_this);
 	    return _this;
@@ -99,18 +112,32 @@
 	      });
 	    }
 	  }, {
+	    key: "getItem",
+	    value: function getItem(val, num) {
+	      this.setState({
+	        item: val,
+	        num: num
+	      });
+	    }
+	  }, {
+	    key: "getCurrent",
+	    value: function getCurrent(num, val1, val2) {
+	      var div = this.state.divBox;
+	      div[num].title = val1;
+	      div[num].content = val2;
+	      this.setState({
+	        divBox: div
+	      });
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      return _react2.default.createElement(
 	        "div",
 	        { className: "box" },
 	        _react2.default.createElement(_left2.default, { getTop: this.getTop }),
-	        _react2.default.createElement(_center2.default, { top: this.state.top }),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "right" },
-	          "这里是右边的部分"
-	        )
+	        _react2.default.createElement(_center2.default, { top: this.state.top, getItem: this.getItem.bind(this), divBox: this.state.divBox }),
+	        _react2.default.createElement(_right2.default, { item: this.state.item, getCurrent: this.getCurrent.bind(this), num: this.state.num })
 	      );
 	    }
 	  }]);
@@ -31572,6 +31599,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var lastTop = 0;
+	var currentTop = 0;
+
 	var Center = function (_Component) {
 	  _inherits(Center, _Component);
 
@@ -31582,27 +31612,36 @@
 
 	    _this.createDiv = _this.createDiv.bind(_this);
 	    _this.state = {
-	      divBox: [{
-	        text: "图"
-	      }, {
-	        text: "图"
-	      }]
+	      num: 0
 	    };
 	    return _this;
 	  }
 
 	  _createClass(Center, [{
+	    key: "changeDate",
+	    value: function changeDate(val, num) {
+	      this.props.getItem(val, num);
+	    }
+	  }, {
 	    key: "createDiv",
 	    value: function createDiv() {
 	      var aa = [];
-	      for (var i = 0; i < this.state.divBox.length; i++) {
+	      for (var i = 0; i < this.props.divBox.length; i++) {
 	        aa.push(_react2.default.createElement(
 	          "div",
-	          { className: "tu", key: i },
-	          "" + this.state.divBox[i].text + i
+	          { className: "tu", key: i, onClick: this.changeDate.bind(this, this.props.divBox[i], i) },
+	          _react2.default.createElement(
+	            "p",
+	            null,
+	            this.props.divBox[i].title
+	          ),
+	          _react2.default.createElement(
+	            "p",
+	            null,
+	            this.props.divBox[i].content
+	          )
 	        ));
 	      }
-
 	      return aa;
 	    }
 	  }, {
@@ -31619,38 +31658,53 @@
 	      );
 	    }
 	  }, {
+	    key: "componentDidUpdate",
+	    value: function componentDidUpdate() {
+	      if (currentTop !== lastTop) {
+	        lastTop = currentTop;
+	        this.props.getItem(this.state.divBox[this.state.num], this.state.num);
+	      }
+	    }
+	  }, {
 	    key: "componentWillReceiveProps",
 	    value: function componentWillReceiveProps(nextProps) {
 	      var top = nextProps.top;
+	      currentTop = top;
 	      var arr = [];
-	      var arrTem = this.state.divBox;
-	      var length = this.state.divBox.length;
+	      var numTem = 0;
+	      var arrTem = this.props.divBox;
+	      var length = this.props.divBox.length;
 	      (0, _jquery2.default)(".tu").each(function (index, val) {
 	        var topTem = (0, _jquery2.default)(this).offset().top;
 	        arr.push(topTem - top);
 	      });
-	      for (var i = 0; i < arr.length - 1; i++) {
-	        if (arr[i] <= 0 && arr[i + 1] >= 0) {
-	          arrTem.splice(i + 1, 0, { text: "我是插入的" + i });
-	        }
-	      }
-	      if (length == this.state.divBox.length) {
-	        var num = 0;
-	        for (var i = 0; i < arr.length; i++) {
-	          if (arr[i] >= 0 || arr[i] <= 0) {
-	            num++;
+	      if (currentTop !== lastTop) {
+	        for (var i = 0; i < arr.length - 1; i++) {
+	          if (arr[i] <= 0 && arr[i + 1] >= 0) {
+	            arrTem.splice(i + 1, 0, { title: "1111", content: "2222" });
+	            numTem = i + 1;
 	          }
 	        }
-	        console.log(num, arr.length);
-	        if (num == arr.length && arr[0] >= 0) {
-	          arrTem.splice(0, 0, { text: "我是插入的" + i });
-	        } else {
-	          arrTem.splice(arr.length, 0, { text: "我是插入的" + i });
+	        if (length == this.props.divBox.length) {
+	          var num = 0;
+	          for (var i = 0; i < arr.length; i++) {
+	            if (arr[i] >= 0 || arr[i] <= 0) {
+	              num++;
+	            }
+	          }
+	          if (num == arr.length && arr[0] >= 0) {
+	            arrTem.splice(0, 0, { title: "444", content: "777" });
+	            numTem = 0;
+	          } else {
+	            arrTem.splice(arr.length, 0, { title: "888", content: "9999" });
+	            numTem = arr.length;
+	          }
 	        }
+	        this.setState({
+	          divBox: arrTem,
+	          num: numTem
+	        });
 	      }
-	      this.setState({
-	        divBox: arrTem
-	      });
 	    }
 	  }]);
 
@@ -31664,13 +31718,116 @@
 /* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Right = function (_Component) {
+	  _inherits(Right, _Component);
+
+	  function Right(props) {
+	    _classCallCheck(this, Right);
+
+	    var _this = _possibleConstructorReturn(this, (Right.__proto__ || Object.getPrototypeOf(Right)).call(this, props));
+
+	    _this.state = {
+	      item: {
+	        title: "",
+	        content: ""
+	      }
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Right, [{
+	    key: "handleChange",
+	    value: function handleChange(e) {
+	      this.setState({
+	        item: {
+	          title: this.refs.title.value,
+	          content: this.refs.content.value
+	        }
+	      });
+	      this.props.getCurrent(this.props.num, this.refs.title.value, this.refs.content.value);
+	    }
+	  }, {
+	    key: "componentWillReceiveProps",
+	    value: function componentWillReceiveProps(nextProps) {
+	      this.setState({
+	        item: {
+	          title: nextProps.item.title,
+	          content: nextProps.item.content
+	        }
+	      });
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "right" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "rConent" },
+	          "标题   ",
+	          _react2.default.createElement("input", { type: "text", onChange: this.handleChange.bind(this), value: this.state.item.title || "", ref: "title" })
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "rConent" },
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "内容"
+	          ),
+	          _react2.default.createElement("textarea", { onChange: this.handleChange.bind(this), value: this.state.item.content || "", ref: "content" })
+	        )
+	      );
+	    }
+	  }, {
+	    key: "componentDidMount",
+	    value: function componentDidMount() {
+	      var height = (0, _jquery2.default)(".left").outerHeight();
+	      (0, _jquery2.default)(".right").css({ height: height });
+	    }
+	  }]);
+
+	  return Right;
+	}(_react.Component);
+
+	exports.default = Right;
+
+/***/ },
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(183);
+	var content = __webpack_require__(184);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(185)(content, {});
+	var update = __webpack_require__(186)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -31687,21 +31844,21 @@
 	}
 
 /***/ },
-/* 183 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(184)();
+	exports = module.exports = __webpack_require__(185)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "\r\n/*****************处理整体样式****************/\r\n*{margin: 0; padding: 0}\r\n.box{\r\n  padding-top: 100px;\r\n  display: flex;\r\n  justify-content: space-around;\r\n}\r\n\r\n\r\n/*****************左边部分样式*********************/\r\n.left{\r\n  width:30%;\r\n  height: 100%;\r\n  background-color: #333;\r\n  border-left: 1px solid #111;\r\n  box-sizing: border-box;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  flex-wrap: wrap;\r\n}\r\n\r\n.tab{\r\n  width: 90px;\r\n  height: 90px;\r\n  background: red;\r\n  margin: 10px 0;\r\n  cursor: pointer;\r\n}\r\n.img{\r\n  width: 100%;\r\n  height: 30px;\r\n}\r\n.title{\r\n  width: 100%;\r\n  height: 10px;\r\n  line-height: 10px;\r\n  text-align: center;\r\n}\r\n\r\n\r\n/*****************中间部分样式*********************/\r\n.center{\r\n  width:40%;\r\n  height: 100%;\r\n  border-left: 1px solid #111;\r\n  box-sizing: border-box;\r\n  background-color: #999;\r\n  padding: 50px 20px;\r\n}\r\n.content{\r\n  box-sizing: border-box;\r\n  background-color: #333;\r\n  width: 100%;\r\n}\r\n\r\n.tu{\r\n  width: 100%;\r\n  border: 1px solid red;\r\n  height: 100px;\r\n}\r\n\r\n\r\n\r\n\r\n/*****************右边部分样式*********************/\r\n.right{\r\n  width:40%;\r\n  height: 100%;\r\n  background-color: #333;\r\n  border-left: 1px solid #111;\r\n  box-sizing: border-box;\r\n}\r\n", ""]);
+	exports.push([module.id, "\r\n/*****************处理整体样式****************/\r\n*{margin: 0; padding: 0}\r\n.box{\r\n  padding-top: 100px;\r\n  display: flex;\r\n  justify-content: space-around;\r\n}\r\n\r\n\r\n/*****************左边部分样式*********************/\r\n.left{\r\n  width:30%;\r\n  height: 100%;\r\n  background-color: #333;\r\n  border-left: 1px solid #111;\r\n  box-sizing: border-box;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  flex-wrap: wrap;\r\n}\r\n\r\n.tab{\r\n  width: 90px;\r\n  height: 90px;\r\n  background: red;\r\n  margin: 10px 0;\r\n  cursor: pointer;\r\n}\r\n.img{\r\n  width: 100%;\r\n  height: 30px;\r\n}\r\n.title{\r\n  width: 100%;\r\n  height: 10px;\r\n  line-height: 10px;\r\n  text-align: center;\r\n}\r\n\r\n\r\n/*****************中间部分样式*********************/\r\n.center{\r\n  width:40%;\r\n  height: 100%;\r\n  border-left: 1px solid #111;\r\n  box-sizing: border-box;\r\n  background-color: #999;\r\n  padding: 50px 20px;\r\n}\r\n.content{\r\n  box-sizing: border-box;\r\n  background-color: #333;\r\n  width: 100%;\r\n}\r\n\r\n.tu{\r\n  width: 100%;\r\n  border: 1px solid red;\r\n  height: 100px;\r\n}\r\n\r\n\r\n\r\n\r\n/*****************右边部分样式*********************/\r\n.right{\r\n  width:40%;\r\n  height: 100%;\r\n  background-color: #333;\r\n  border-left: 1px solid #111;\r\n  box-sizing: border-box;\r\n  padding: 10px;\r\n}\r\n.rConent{\r\n  padding: 10px;\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n}\r\n.rConent span{\r\n  float: left;\r\n  margin-right: 10px;\r\n}\r\n\r\n.rConent textarea{\r\n  width: 70%;\r\n  height: 100px;\r\n}\r\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31756,7 +31913,7 @@
 	};
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
