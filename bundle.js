@@ -70,7 +70,11 @@
 
 	var _right2 = _interopRequireDefault(_right);
 
-	__webpack_require__(183);
+	var _top = __webpack_require__(183);
+
+	var _top2 = _interopRequireDefault(_top);
+
+	__webpack_require__(184);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -92,13 +96,16 @@
 	      top: 0,
 	      item: {},
 	      num: 0,
-	      divBox: [{
-	        title: "我是标题1",
-	        content: "我是内容"
-	      }, {
-	        title: "我是标题2",
-	        content: "我是内容"
-	      }]
+	      divBox: [
+	        /*{
+	          title:"我是标题1",
+	          content:"我是内容"
+	        },
+	        {
+	          title:"我是标题2",
+	          content:"我是内容"
+	        }*/
+	      ]
 	    };
 	    _this.getTop = _this.getTop.bind(_this);
 	    return _this;
@@ -134,10 +141,15 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        "div",
-	        { className: "box" },
-	        _react2.default.createElement(_left2.default, { getTop: this.getTop }),
-	        _react2.default.createElement(_center2.default, { top: this.state.top, getItem: this.getItem.bind(this), divBox: this.state.divBox }),
-	        _react2.default.createElement(_right2.default, { item: this.state.item, getCurrent: this.getCurrent.bind(this), num: this.state.num })
+	        null,
+	        _react2.default.createElement(_top2.default, null),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "box" },
+	          _react2.default.createElement(_left2.default, { getTop: this.getTop }),
+	          _react2.default.createElement(_center2.default, { top: this.state.top, getItem: this.getItem.bind(this), divBox: this.state.divBox }),
+	          _react2.default.createElement(_right2.default, { item: this.state.item, getCurrent: this.getCurrent.bind(this), num: this.state.num })
+	        )
 	      );
 	    }
 	  }]);
@@ -31479,6 +31491,9 @@
 	    var _this = _possibleConstructorReturn(this, (Left.__proto__ || Object.getPrototypeOf(Left)).call(this, props));
 
 	    _this.moreTab = _this.moreTab.bind(_this);
+	    _this.state = {
+	      title: "海报"
+	    };
 	    return _this;
 	  }
 
@@ -31486,8 +31501,8 @@
 	    key: "moreTab",
 	    value: function moreTab() {
 	      var tabs = [];
-	      for (var i = 0; i < 21; i++) {
-	        tabs.push(_react2.default.createElement(Tab, { key: i }));
+	      for (var i = 0; i < 12; i++) {
+	        tabs.push(_react2.default.createElement(Tab, { key: i, title: this.state.title }));
 	      }
 	      return tabs;
 	    }
@@ -31506,6 +31521,7 @@
 	    value: function componentDidMount() {
 	      var t = this;
 	      (0, _jquery2.default)(".tab").mousedown(function (e) {
+	        e.preventDefault();
 	        var left = (0, _jquery2.default)(this).offset().left,
 	            top = (0, _jquery2.default)(this).offset().top,
 	            firstX = e.pageX,
@@ -31560,8 +31576,16 @@
 	      return _react2.default.createElement(
 	        "div",
 	        { className: "tab" },
-	        _react2.default.createElement("div", { className: "img" }),
-	        _react2.default.createElement("p", { className: "title" })
+	        _react2.default.createElement(
+	          "div",
+	          { className: "img" },
+	          _react2.default.createElement("img", { src: "images/1.png" })
+	        ),
+	        _react2.default.createElement(
+	          "p",
+	          { className: "title" },
+	          this.props.title
+	        )
 	      );
 	    }
 	  }]);
@@ -31821,13 +31845,66 @@
 /* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Top = function (_Component) {
+	  _inherits(Top, _Component);
+
+	  function Top(props) {
+	    _classCallCheck(this, Top);
+
+	    return _possibleConstructorReturn(this, (Top.__proto__ || Object.getPrototypeOf(Top)).call(this, props));
+	  }
+
+	  _createClass(Top, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "top" },
+	        _react2.default.createElement(
+	          "h2",
+	          null,
+	          "编辑活动页"
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Top;
+	}(_react.Component);
+
+	exports.default = Top;
+
+/***/ },
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(184);
+	var content = __webpack_require__(185);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(186)(content, {});
+	var update = __webpack_require__(187)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -31844,21 +31921,21 @@
 	}
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(185)();
+	exports = module.exports = __webpack_require__(186)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "\r\n/*****************处理整体样式****************/\r\n*{margin: 0; padding: 0}\r\n.box{\r\n  padding-top: 100px;\r\n  display: flex;\r\n  justify-content: space-around;\r\n}\r\n\r\n\r\n/*****************左边部分样式*********************/\r\n.left{\r\n  width:30%;\r\n  height: 100%;\r\n  background-color: #333;\r\n  border-left: 1px solid #111;\r\n  box-sizing: border-box;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  flex-wrap: wrap;\r\n}\r\n\r\n.tab{\r\n  width: 90px;\r\n  height: 90px;\r\n  background: red;\r\n  margin: 10px 0;\r\n  cursor: pointer;\r\n}\r\n.img{\r\n  width: 100%;\r\n  height: 30px;\r\n}\r\n.title{\r\n  width: 100%;\r\n  height: 10px;\r\n  line-height: 10px;\r\n  text-align: center;\r\n}\r\n\r\n\r\n/*****************中间部分样式*********************/\r\n.center{\r\n  width:40%;\r\n  height: 100%;\r\n  border-left: 1px solid #111;\r\n  box-sizing: border-box;\r\n  background-color: #999;\r\n  padding: 50px 20px;\r\n}\r\n.content{\r\n  box-sizing: border-box;\r\n  background-color: #333;\r\n  width: 100%;\r\n}\r\n\r\n.tu{\r\n  width: 100%;\r\n  border: 1px solid red;\r\n  height: 100px;\r\n}\r\n\r\n\r\n\r\n\r\n/*****************右边部分样式*********************/\r\n.right{\r\n  width:40%;\r\n  height: 100%;\r\n  background-color: #333;\r\n  border-left: 1px solid #111;\r\n  box-sizing: border-box;\r\n  padding: 10px;\r\n}\r\n.rConent{\r\n  padding: 10px;\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n}\r\n.rConent span{\r\n  float: left;\r\n  margin-right: 10px;\r\n}\r\n\r\n.rConent textarea{\r\n  width: 70%;\r\n  height: 100px;\r\n}\r\n", ""]);
+	exports.push([module.id, "\r\n/*****************处理整体样式****************/\r\n*{margin: 0; padding: 0}\r\n\r\n/*******************顶部区域**********************/\r\n.top{\r\n  height: 100px;\r\n  width: 100%;\r\n}\r\n.top h2{\r\n  padding: 32px 0 0 15px;\r\n  color:#666;\r\n}\r\n.box{\r\n  border-top: 1px solid #D9D9D9;\r\n  display: flex;\r\n  justify-content: space-around;\r\n}\r\n\r\n\r\n/*****************左边部分样式*********************/\r\n.left{\r\n  width:20%;\r\n  height: 100%;\r\n  box-sizing: border-box;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  flex-wrap: wrap;\r\n}\r\n\r\n.tab{\r\n  width: 90px;\r\n  height: 90px;\r\n  margin: 10px 0;\r\n  cursor: pointer;\r\n  box-sizing: border-box;\r\n}\r\n.tab:hover{\r\n  border: 1px solid #333;\r\n}\r\n.img{\r\n  width: 66px;\r\n  height: 66px;\r\n}\r\n.img img{\r\n  margin-left: 26px;\r\n  margin-top: 29px;\r\n}\r\n.title{\r\n  width: 100%;\r\n  height: 24px;\r\n  line-height: 24px;\r\n  text-align: center;\r\n}\r\n\r\n\r\n/*****************中间部分样式*********************/\r\n.center{\r\n  width:40%;\r\n  height: 100%;\r\n  box-sizing: border-box;\r\n  background-color: #858585;\r\n  padding: 50px 20px;\r\n}\r\n.content{\r\n  box-sizing: border-box;\r\n  background-color: #333;\r\n  width: 100%;\r\n}\r\n\r\n.tu{\r\n  width: 100%;\r\n  border: 1px solid red;\r\n  height: 100px;\r\n  cursor: pointer;\r\n}\r\n\r\n\r\n\r\n\r\n/*****************右边部分样式*********************/\r\n.right{\r\n  width:40%;\r\n  height: 100%;\r\n  box-sizing: border-box;\r\n  padding: 10px;\r\n}\r\n.rConent{\r\n  padding: 10px;\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n}\r\n.rConent span{\r\n  float: left;\r\n  margin-right: 10px;\r\n}\r\n\r\n.rConent textarea{\r\n  width: 70%;\r\n  height: 100px;\r\n}\r\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31913,7 +31990,7 @@
 	};
 
 /***/ },
-/* 186 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
